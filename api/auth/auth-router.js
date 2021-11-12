@@ -40,7 +40,7 @@ router.post('/register', checkBodyExists,checkUsernameExists, (req, res, next) =
       .catch(next)
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login', checkBodyExists,(req, res, next) => {
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.

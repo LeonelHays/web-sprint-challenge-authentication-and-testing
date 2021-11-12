@@ -13,7 +13,7 @@ const checkUsernameExists = async (req, res, next) => {
     }
 }
 const checkBodyExists = async (req, res, next) => {
-    if(!req.body){
+    if(!req.body || req.body.username === undefined || req.body.password === undefined){
         next({ status: 401, message: "username and password required" })
     }else{
         next()
