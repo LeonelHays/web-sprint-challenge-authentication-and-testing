@@ -68,18 +68,19 @@ router.post('/login', checkBodyExists,(req, res, next) => {
 
       Auth.findBy({ username })
         .then(([user]) => {
-          if (user && bcrypt.compareSync(password, user.password)) {
-            const token = buildToken(user)
-            res.status(200).json({
-              message: `welcome, ${user.username}`,
-              token
-            });
-          } else if (!username.trim() || !password.trim()) {
-            next({ status: 401, message: "username and password required" })
-          } else if (username !== user.username || password !== user.password) {
+        if (!username || !password) {
+              next({ status: 401, message: "username and password required" })
+        } else if(user && bcrypt.compareSync(password, user.password)){ 
+           const token = buildToken(user)
+           res.status(200).json({
+             message: `welcome, ${user.username}`,
+             token
+           });
+        } else if(username !== user.username || password !== user.password) {
             next({ status: 401, message: 'Invaild Credentials' });
-        }})
-        .catch(next);
+        }
+      })
+      .catch(next);
 });
 
 function buildToken(user) {
